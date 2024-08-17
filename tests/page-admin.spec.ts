@@ -1,15 +1,11 @@
 import { test, expect } from '@playwright/test';
 import { log } from 'console';
+import { logIn, stdInitMenu } from './util/admin_util';
 
 const PW_TEST_PAGE = 'PW Test Page';
 
 test('Page Create Test', async ({ page }) => {
-  page.setViewportSize({ width: 1920, height: 1080 });
-  expect(true).toBeTruthy();
-
-  await page.goto('https://dev.recovery.pr.gov/admin/');
-  await logIn(page);
-  await gotoPages(page)
+  await stdInitMenu(page, 'Custom Pages');
 
   //Click Add New Page
   const createButton = await page?.$('.admin-pages-container .page-actions-row button');
@@ -46,14 +42,7 @@ test('Page Create Test', async ({ page }) => {
 })
 
 test('Page Delete Test', async ({ page }) => {
-  page.setViewportSize({ width: 1920, height: 1080 });
-  expect(true).toBeTruthy();
-
-  await page.goto('https://dev.recovery.pr.gov/admin/');
-  await logIn(page);
-  await page.waitForTimeout(600);
-  await gotoPages(page)
-  await page.waitForTimeout(600);
+  await stdInitMenu(page, 'Custom Pages');
 
   //Ensure the first row is the page we want to delete
   const firstTDD = await page?.$('table tr td');
@@ -67,9 +56,11 @@ test('Page Delete Test', async ({ page }) => {
   const rowMenu = await page?.$('table tr .admin-list-options .mat-mdc-menu-trigger')
   expect(rowMenu).toBeTruthy();
   await rowMenu?.click();
+  //wait for 500ms
+  await page.waitForTimeout(500);
 
   //click #mat-menu-panel-1 .admin-pages-option with text Delete
-  const deleteOption = await page?.$('#mat-menu-panel-1 .admin-pages-option :text("Delete")');
+  const deleteOption = await page?.$('.mat-mdc-menu-panel .admin-pages-option :text("Delete")');
   expect(deleteOption).toBeTruthy();
   await deleteOption?.click();
 
@@ -88,21 +79,11 @@ test('Page Delete Test', async ({ page }) => {
   await page.waitForTimeout(1000);
 })
 
-async function logIn(page: any) {
-  const email = await page.$('#inputEmail');
-  if (email) {
-    expect(email).toBeTruthy();
-    const password = await page.$('#inputPassword');
-    expect(password).toBeTruthy();
-    await email?.fill('')
-    await password?.fill('');
-    await page.click('#loginSubmit');
-    await page.waitForTimeout(2000);
-  }
+async function gotoPages(page: any) {
+  await gotoMenu(page, 'Custom Pages');
 }
 
-
-async function gotoPages(page: any) {
+async function gotoMenu(page: any, menuOptionText: string) {
   const header = await page.$('.admin-header-bar');
   expect(header).toBeTruthy();
   // Select the element with class 'ng-fa-icon' that is a descendant of the element with class 'admin-header-bar'
@@ -110,7 +91,9 @@ async function gotoPages(page: any) {
   expect(icon).toBeTruthy();
   await icon?.click();
   //select first element with class item-option-2
-  const item = await page?.$('.item-option-2');
+  //const item = await page?.$('.item-option-2');
+  //select first element with text Custom Pages
+  const item = await page?.$(`.item-option :text("${menuOptionText}")`)
   expect(item).toBeTruthy();
   await item?.click();
 }

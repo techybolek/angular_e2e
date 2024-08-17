@@ -31,8 +31,15 @@ test('Reconcile Home Page with Financial Summary', async ({ page }) => {
   //click #ts-nav-4-1
   await page.click('#ts-nav-4-1');
 
+  //grab the value of the element whose parent id is ts-filter-managingAgency and its class it the-trigger
+  const tsFilterManagingAgency = await page.$('#mat-select-value-1 .the-trigger');
+  await page.waitForTimeout(500);
+  expect(tsFilterManagingAgency).toBeTruthy();
+  console.log('tsFilterManagingAgency:', tsFilterManagingAgency)
+
   //click #ts-filter-managingAgency
   await page.click('#ts-filter-managingAgency');
+
 
   //click #ts-filter-managingAgency-panel :text("COR3")
   await page.click('#ts-filter-managingAgency-panel :text("COR3")');
