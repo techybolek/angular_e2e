@@ -7,8 +7,8 @@ export async function logIn(page: any) {
         const password = await page.$('#inputPassword');
         expect(password).toBeTruthy();
         await email?.fill('pradmin@cgi.com')
-        //await password?.fill('j#ieJ%lrI3');
-        await password?.fill('Pdq9pR5!y4')
+        await password?.fill('j#ieJ%lrI3');
+        //await password?.fill('Pdq9pR5!y4')
         await page.click('#loginSubmit');
         await page.waitForTimeout(2000);
     }
@@ -33,8 +33,8 @@ export async function stdInitMenu(page: any, menuOptionText: string) {
     page.setViewportSize({ width: 1920, height: 1080 });
     expect(true).toBeTruthy();
 
-    //await page.goto('https://dev.recovery.pr.gov/admin/');
-    await page.goto('http://172.31.64.1:4201/en/');
+    await page.goto('https://dev.recovery.pr.gov/admin/');
+    //await page.goto('http://localhost:4200/en/');
     await logIn(page);
     await page.waitForTimeout(600);
     await gotoMenu(page, menuOptionText)

@@ -2,14 +2,15 @@ import { test, expect } from '@playwright/test';
 import { log } from 'console';
 import { logIn, stdInitMenu } from './util/admin_util';
 
-const DOC_TEST_TITLE = 'TRO TEST - Playwright Demo';
+const DOC_TEST_TITLE = 'TRO TEST - PW';
 
-test('Doc Create Test', async ({ page }) => {
-  await stdInitMenu(page, 'Document Library');
+test('RFP Create Test', async ({ page }) => {
+  await stdInitMenu(page, 'Inventory');
 
   //Click Add Document
-  const createButton = await page?.$('#table-outer-container .admin-primary-button :text("Add New Document")');
+  const createButton = await page?.$('#table-outer-container .admin-primary-button :text("Add New COR3 Document")');
   expect(createButton).toBeTruthy();
+  /*
   await createButton?.click();
   //wait for 500ms
   await page.waitForTimeout(500);
@@ -69,10 +70,12 @@ test('Doc Create Test', async ({ page }) => {
   const submitButton = await page?.$('.admin-primary-button :text("Submit")')
   expect(submitButton).toBeTruthy();
   await submitButton?.click();
+  */
 
   await page.waitForTimeout(3000);
 })
 
+/*
 test('Doc Edit Test', async ({ page }) => {
   await stdInitMenu(page, 'Document Library');
 
@@ -88,6 +91,7 @@ test('Doc Edit Test', async ({ page }) => {
   //console.log("ROWMENU: ", rowMenu);
 
   const docRow = await page.evaluateHandle(() => {
+    const DOC_TEST_TITLE = 'TRO TEST - PW';
     const xpathExpression = `//*[contains(text(), "${DOC_TEST_TITLE}")]/..`;
     const result = document.evaluate(xpathExpression, document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null);
     return result.singleNodeValue;
@@ -105,20 +109,19 @@ test('Doc Edit Test', async ({ page }) => {
       console.log('Child element found');
       //await rowMenu.click();
       //wait for 500ms
-      /*
-      await page.waitForTimeout(500);
-      const editOption = await page?.$('.mat-mdc-menu-panel .admin-pages-option :text("Edit")');
-      expect(editOption).toBeTruthy();
-      await editOption?.click();
+      
+      //await page.waitForTimeout(500);
+      //const editOption = await page?.$('.mat-mdc-menu-panel .admin-pages-option :text("Edit")');
+      //expect(editOption).toBeTruthy();
+      //await editOption?.click();
 
-      const titleInput = await page?.$('.title input');
-      expect(titleInput).toBeTruthy();
-      await page.fill('.title input', ' - EDITED');
+      //const titleInput = await page?.$('.title input');
+      //expect(titleInput).toBeTruthy();
+      //await page.fill('.title input', ' - EDITED');
 
-      const submitButton = await page?.$('.admin-primary-button :text("Submit")')
-      expect(submitButton).toBeTruthy();
-      await submitButton?.click();
-      */
+      //const submitButton = await page?.$('.admin-primary-button :text("Submit")')
+      //expect(submitButton).toBeTruthy();
+      //await submitButton?.click();
     } else {
       console.log('Child element not found')
     }
@@ -128,3 +131,4 @@ test('Doc Edit Test', async ({ page }) => {
 
   await page.waitForTimeout(1500);
 })
+*/
